@@ -3,6 +3,6 @@ const router=express.Router();
 const{signUpPostData} = require('../controller/signUp')
 
 
-router.post('/postdata', signUpPostData);
+router.post('/signup', signUpPostData);
 
 module.exports = router;
