@@ -6,7 +6,6 @@ async function myloginFunc(event){
 
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
-        console.log(username);
         event.target.reset()
         const myObj = { username,password };
         const response = await axios.post("http://localhost:8000/login",myObj);
