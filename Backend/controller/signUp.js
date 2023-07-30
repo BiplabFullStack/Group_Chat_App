@@ -15,17 +15,17 @@ const signUpPostData = async (req, res) => {
         //if user already register 
         const findEmail = await User.findOne({where:{email:email}})
         if (findEmail) {
-            console.log("Email already register");
+            console.log("User already exists, Please Login");
              res
                 .status(409)
-                .json({ success: false, err: "Email already exist" })
+                .json({ success: false, err: "User already exists, Please Login" })
                 console.log(res.statusCode);   
         }
          else {
             bcrypt.hash(password, 10, async (err, hash) => {
                 if (!err) {
                     await User.create({ firstName, lastName, email, number, password: hash })
-                    console.log("Create Successfully ");
+                    console.log("Successfuly signed up ");
                     res.status(201).json({ success: true, msg: "Create Successfully " })
                 } else {
                     console.log("Something went Wrong")

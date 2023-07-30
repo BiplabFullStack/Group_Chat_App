@@ -12,7 +12,7 @@ async function mySignUpFunc(event){
 
     const response = await axios.post("http://localhost:8000/signup",myObj);
         if(response.status == 201){
-            alert("Account Successfully Created");
+            alert("Successfuly signed up");
         }
     }
     catch(err){

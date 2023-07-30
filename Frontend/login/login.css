@@ -1,0 +1,118 @@
+body {
+    background-image: url("https://images.wallpaperscraft.com/image/single/starry_sky_boat_reflection_125803_3840x2160.jpg"); /* Replace with your technology-themed background image URL */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+  }
+
+  .login-container {
+    
+    max-width: 900px;
+    padding: 50px;
+    border-radius: 10px;
+    
+    background-color: rgba(255, 255, 255, 0.8); /* Add transparency to the container */
+    backdrop-filter: blur(10px); /* Apply backdrop blur for a frosted glass effect */
+    transform: scale(0.8);
+    opacity: 0;
+    animation: fadeInScale 0.8s forwards 0.3s;
+    background-image: url("https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8dGVjaG5vbG9neXxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=500&q=60");
+    box-shadow: -1px 1px 60px 10px black inset;
+  } 
+
+  @keyframes fadeInScale {
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .login-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    color: #007bff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    animation: fadeInUp 1s 0.5s ease;
+    
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .login-form {
+    animation: fadeInUp 1s 1s ease;
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 1s 1.5s ease forwards;
+  }
+  
+  .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #444;
+  }
+  
+  .form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .form-group input:focus {
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .form-group button {
+    padding: 12px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+  
+  .form-group button:hover {
+    background-color: #0056b3;
+  }
+  
+  .form-group.fade-in {
+    animation: fadeInUp 1s 2s ease forwards;
+  }
+
+  label{
+    color: #1a7de8;
+  }
+   a{
+    margin-bottom: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+     animation: fadeInUp 1.5s 2.5s ease forwards; 
+    
+  } 
