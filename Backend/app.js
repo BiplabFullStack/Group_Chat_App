@@ -8,13 +8,15 @@ const sequelize = require('./database/db')
 
 
 
-const signUpRoute = require('./router/signUp')
+const signUpRoute = require('./router/signUp');
+const loginRouter = require('./router/login');
 
 
 const app = new express();
 app.use(bodyParser.json());
 app.use(cors());
 app.use(signUpRoute);
+app.use(loginRouter);
 
 
 sequelize.sync().then(result=>{

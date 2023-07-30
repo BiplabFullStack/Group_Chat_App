@@ -7,15 +7,18 @@ async function mySignUpFunc(event){
     const email = document.getElementById('email').value;
     const number = document.getElementById('number').value;
     const password = document.getElementById('password').value;
+    event.target.reset();
 
     const myObj={ firstName, lastName, email, number, password };
 
     const response = await axios.post("http://localhost:8000/signup",myObj);
         if(response.status == 201){
             alert("Successfuly signed up");
+            window.location.href ='../login/login.html';
         }
     }
     catch(err){
         console.log(JSON.stringify(err));
+        alert("Invalid Username and Password")
     }
 }

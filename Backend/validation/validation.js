@@ -6,9 +6,7 @@ const User = require('../model/signUp')
 const nameInValid = (name) => {
     if (!name || name.trim().length == 0) {
         return true
-    } else {
-        return false
-    }
+    } 
 }
 
 
@@ -21,9 +19,7 @@ const emailInValid = (email) => {
     if (!email || email.trim().length == 0 || !validRegex.test(email)) {
         return true;
     }
-    else {
-        return false
-    }
+    
 }
 
 const emailAlreadyRegister =async (email) =>{
