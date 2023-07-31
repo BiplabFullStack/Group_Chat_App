@@ -18,4 +18,17 @@ const postmessage = async (req, res) => {
     }
 }
 
-module.exports.postmessage = postmessage;
+const getmessage = async(req, res) => {
+    try{
+        const result = await chatdb.findAll({where:{userId:req.user.id}})
+    
+
+        return res.status(200).json(result)
+    }
+    catch(err){
+        console.error(err);
+        res.status(500).json({success:false, err:"Something is wrong"})
+    }
+}
+
+module.exports = { postmessage , getmessage };
