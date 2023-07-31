@@ -13,12 +13,13 @@ const login = async (req, res) => {
                 .json({ success: false, err: "Something is missing" })
         }
         const response = await User.findOne({ where: { email: username } })
+        //console.log(response);
         bcrypt.compare(password, response.password, (err, result) => {
             if (result) {
                 console.log("Login Successfully");
                 return res
                     .status(200)
-                    .json({ success: true, msg: "Login Successfully", token:generateAccessToken(response.id,response.firstname,response.email)});
+                    .json({ success: true, msg: "Login Successfully", token:generateAccessToken(response.id,response.firstName,response.email)});
             }
             else{
                 console.log("weong Password");

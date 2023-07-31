@@ -10,6 +10,9 @@ const sequelize = require('./database/db')
 
 const signUpRoute = require('./router/signUp');
 const loginRouter = require('./router/login');
+const chatappRouter = require('./router/chatapp');
+const User = require('./model/signUp')
+const chat = require('./model/chatapp')
 
 
 const app = new express();
@@ -17,6 +20,13 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(signUpRoute);
 app.use(loginRouter);
+app.use(chatappRouter);
+
+
+
+User.hasMany(chat)
+chat.belongsTo(User)
+
 
 
 sequelize.sync().then(result=>{
