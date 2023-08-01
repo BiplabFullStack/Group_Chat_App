@@ -26,6 +26,19 @@
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <script src="./chatapp.js"></script>
+    <script>
+        function storeMessageLocally(msgObj) {
+    const messages = JSON.parse(localStorage.getItem("messages")) || [];
+    messages.push(msgObj);
+    localStorage.setItem("messages", JSON.stringify(messages));
+  }
+
+  // Function to get messages from local storage
+  function getLocalMessages() {
+    return JSON.parse(localStorage.getItem("messages")) || [];
+  }
+    </script>
+ 
 </body>
 </html> 
 

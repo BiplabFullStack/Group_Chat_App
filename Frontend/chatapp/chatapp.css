@@ -1,150 +1,99 @@
 
-
- @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap');
-
 body {
-    font-family: 'Montserrat', sans-serif;
-    margin: 0;
-    padding: 0;
     background-color: #79848f;
-    
-    
 }
 
 .container {
-    margin-top: 50px;
-    box-shadow: -1px 1px 60px 10px black inset;
-    
+    margin-top: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    /* animation */
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
 }
 
 .chat-app {
     display: flex;
-    background-color: #f8f9fa;
-    border: 1px solid #dee2e6;
-    border-radius: 5px;
-    /* box-shadow: -1px 1px 60px 10px black inset; */
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.active-users{
+    flex-basis: 48%;
+    margin-bottom: 20px;
+}
+.chat-window {
+    flex-basis: 48%;
+    margin-bottom: 20px;
     
 }
 
-.active-users, .chat-window {
-    border-radius: 5px;
-    flex: 1;
-    font-size: medium;
-}
-
-.active-users {
-    padding: 10px;
-}
-
-.active-users h2 {
-    margin-top: 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #333;
+h2 {
+    margin-bottom: 10px;
 }
 
 ul {
     list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-ul li {
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-ul li:hover {
-    background-color: #f2f2f2;
-}
-
-.chat-window {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-}
-
-.chat-header {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px;
-    border-radius: 5px 5px 0 0;
-    font-size: 1.4rem;
-    font-weight: 600;
-    text-align: center;
-    animation: slide-in-top 0.5s ease;
-}
-
-@keyframes slide-in-top {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
+    padding-left: 0;
 }
 
 #chat-messages {
-    flex: 1;
+    height: 300px;
     overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #616a71;
+
+     opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards; 
+   
+    
 }
 
-.list-group-item {
-    border: none;
-    background-color: transparent;
-}
-
-.list-group-item.fade-in {
-    animation: fade-in 0.5s ease;
-}
-
-.list-group-item.fade-in:nth-child(odd) {
-    animation-delay: 0.1s;
+#chat-messages p {
+    margin: 5px 0;
 }
 
 .input-box {
     display: flex;
-    align-items: center;
-    margin-top: 20px;
+    margin-top: 10px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards; 
 }
 
 #message-input {
-    flex: 1;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+    flex-grow: 1;
+    margin-right: 10px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards; 
 }
 
+/* Animation for chat messages */
+.animate__fadeIn {
+    animation: fadeIn 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for the send button */
 #send-btn {
-    padding: 10px 20px;
-    margin-left: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s;
+    transition: transform 0.2s;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards; 
 }
 
 #send-btn:hover {
-    background-color: #0056b3;
+    transform: scale(1.1);
 }
-
-
-
-@keyframes fade-in {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slide-in-right {
-    from { opacity: 0; transform: translateX(50px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-@keyframes slide-in-bottom {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes pop-in {
-    from { transform: scale(0.5); opacity: 0; }
-    to { transform: scale(1); opacity: 1; }
-}  
