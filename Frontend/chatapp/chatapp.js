@@ -27,14 +27,20 @@ async function sendMessage(e) {
 
 // Display function
 function displaychatMessages(myObj) {
-  //console.log("This is my message ", myObj.message);
   const ul = document.getElementById("chat-messages");
-
   const li = document.createElement("li");
   li.innerHTML = `msg: ${myObj.message}`;
   li.style.color = "Maroon";
   li.class = "list-group-item fade-in";
   ul.appendChild(li);
+}
+
+function displaycurrentUser(myObj){
+  const activeUser = document.getElementById("user-list");
+  const activeli = document.createElement('li');
+  activeli.innerHTML =`${myObj.data.firstName}`;
+  activeli.style.color = 'rgb(0,0,0,0, 2)';
+  activeUser.appendChild(activeli);
 }
 
 // Fetch message from db
@@ -44,9 +50,6 @@ async function callApi() {
     const response = await axios.get("http://localhost:8000/getmessage", {
       headers: { Authorization: token },
     });
-    // response.data.forEach(msg =>{
-    //   displaychatMessages(msg);
-    // })
 
     const newMessages = response.data;
     const localMessages = getLocalMessages();
@@ -64,10 +67,6 @@ async function callApi() {
       storeMessageLocally(msg);
     });
 
-    // Store new messages in local storage
-    // filteredMessages.forEach((msg) => {
-    //   storeMessageLocally(msg);
-    // });
   } catch (err) {
     console.log(err.message);
   }
@@ -81,6 +80,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       headers: { Authorization: token },
     });
 
+    const username = await axios.get("http://localhost:8000/getusername",{headers: { Authorization: token },})
+    //console.log("Username---->",username);
+    displaycurrentUser(username);
     // Display messages from local storage
     const localMessages = getLocalMessages();
     localMessages.forEach((msg) => {
