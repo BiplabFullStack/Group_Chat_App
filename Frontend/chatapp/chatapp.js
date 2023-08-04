@@ -104,7 +104,32 @@ window.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
+// ---------------------------------------  Group and User-Group -------------------------------------
+document.addEventListener("DOMContentLoaded", ()=> {
+  const createGroupBtn = document.getElementById("create-group-btn");
+  const inviteUserBtn = document.getElementById('invite-user-btn');
+  const UserGroupDiv = document.getElementById('user-groups');
+  const groupMessageDiv = document.getElementById('group-messages')
 
+
+  createGroupBtn.addEventListener('click',createGroup)
+  //inviteUserBtn.addEventListener('click',inviteUser)
+
+
+  async function createGroup(e) {
+    e.preventDefault();
+    try{
+    const groupname = document.getElementById('group-name').value.trim();
+    console.log(groupname);
+    document.getElementById('group-name').value = '';
+    const token = localStorage.getItem("token");
+    await axios.post('http://localhost:8000/create-group',{groupname},{headers: { Authorization: token }})
+    }
+    catch(err){
+      console.log(err.message);
+    }
+  }
+})
 
 
 
