@@ -1,4 +1,4 @@
-const chatdb = require('../model/chatapp')
+const chatdb = require('../model/message')
 
 const postmessage = async (req, res) => {
     try {

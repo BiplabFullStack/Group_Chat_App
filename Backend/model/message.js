@@ -12,6 +12,10 @@ const chatapp = sequelize.define('message',{
     message:{
         type:dataType.STRING,
         allowNull:false
+    },
+    username:{
+        type:dataType.STRING,
+        //allowNull:false
     }
     
 

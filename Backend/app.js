@@ -12,7 +12,9 @@ const signUpRoute = require('./router/signUp');
 const loginRouter = require('./router/login');
 const chatappRouter = require('./router/chatapp');
 const User = require('./model/signUp')
-const chat = require('./model/chatapp')
+const Chat = require('./model/message')
+const Group = require('./model/group')
+const UserGroup = require('./model/usergroup')
 
 
 const app = new express();
@@ -24,10 +26,14 @@ app.use(chatappRouter);
 
 
 
-User.hasMany(chat)
-chat.belongsTo(User)
+User.hasMany(Chat)
+Chat.belongsTo(User)
 
+Group.belongsToMany(User , {through : UserGroup});
+User.belongsToMany(Group , {through : UserGroup});
 
+Group.hasMany(Chat);
+Chat.belongsTo(Group);
 
 sequelize.sync().then(result=>{
     console.log(chalk.green.inverse('Database Connected ....'))
