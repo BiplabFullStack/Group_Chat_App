@@ -1,13 +1,16 @@
 const chatdb = require('../model/message')
+const Group = require('../model/group')
 
 const postmessage = async (req, res) => {
     try {
-        const { message } = req.body;
-        //console.log(message);
-
+        const { message , groupname } = req.body;
+        const group = await Group.findOne({where:{groupname}})
+        //console.log("Group id is ", group.id);
+      
         await chatdb.create({
             message,
-            userId: req.user.id
+            userId: req.user.id,
+            groupId: group.id
         })
         console.log("message store successfully into db");
         res.status(201).json({ success: true, msg: "message store successfully into db" });

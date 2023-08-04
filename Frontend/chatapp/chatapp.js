@@ -11,7 +11,8 @@ async function sendMessage(e) {
     document.getElementById("message-input").value = "";
 
     const token = localStorage.getItem("token");
-    const msgObj = { message };
+    const groupname = localStorage.getItem('groupname')
+    const msgObj = { message , groupname };
 
     const response = await axios.post("http://localhost:8000/message", msgObj, {
       headers: { Authorization: token },
@@ -120,13 +121,26 @@ document.addEventListener("DOMContentLoaded", ()=> {
     e.preventDefault();
     try{
     const groupname = document.getElementById('group-name').value.trim();
-    console.log(groupname);
+    //console.log(groupname);
     document.getElementById('group-name').value = '';
     const token = localStorage.getItem("token");
-    await axios.post('http://localhost:8000/create-group',{groupname},{headers: { Authorization: token }})
+    const groupName = await axios.post('http://localhost:8000/create-group',{groupname},{headers: { Authorization: token }})
+    //console.log(groupName.data.creategroup.groupname);
+    if(groupName.status == 201){
+      localStorage.setItem('groupname', groupName.data.creategroup.groupname)
+      alert("Group created successfully")
+    }
+    if(groupName.status == 200){
+      alert("This Group-name already created ")
+    }
+    
+    if(!groupName){
+      alert("Please enter a valid group name");
+    }
     }
     catch(err){
       console.log(err.message);
+      alert("Something went Wrong")
     }
   }
 })
