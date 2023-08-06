@@ -13,7 +13,7 @@ async function myloginFunc(event){
         if(response.status == 200){
             alert("login Successfully")
             localStorage.setItem('token',response.data.token);
-            window.location.href ="../chatapp/chatapp.html";
+            window.location.href ="../chat/chat.html";
         }
 
     }

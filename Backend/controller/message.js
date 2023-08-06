@@ -1,22 +1,25 @@
+
 const chatdb = require('../model/message')
 const Group = require('../model/group')
 
 const postmessage = async (req, res) => {
     try {
         const { message , groupname } = req.body;
+        console.log(message , groupname);
         const group = await Group.findOne({where:{groupname}})
         //console.log("Group id is ", group.id);
       
-        await chatdb.create({
+        const msgdetails = await chatdb.create({
             message,
+            username:req.user.firstName,
             userId: req.user.id,
             groupId: group.id
         })
         console.log("message store successfully into db");
-        res.status(201).json({ success: true, msg: "message store successfully into db" });
+        res.status(201).json(msgdetails);
     }
     catch (err) {
-        console.log(err.message);
+        console.log(err);
         res.status(500).json({ success: false, err: "Something went wrong" })
     }
 }
