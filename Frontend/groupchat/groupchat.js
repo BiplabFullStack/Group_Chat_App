@@ -1,46 +1,9 @@
-// 
+
 document.getElementById('invite-user-btn').addEventListener('click', addUser);
 document.getElementById("send-btn").addEventListener("click", sendMessage);
 document.getElementById("create-admin-btn").addEventListener('click', makeAdmin)
 
-// --------------------------------------
-window.addEventListener('DOMContentLoaded', () => {
-    const h2 = document.getElementById('group-name');
-    const groupname = localStorage.getItem('groupname');
-    h2.innerHTML = `GroupName : ${groupname}`
-    displayAllUsers()
-
-
-})
-
-//Invite
-async function addUser() {
-    try {
-        const token = localStorage.getItem('token')
-        const groupname = localStorage.getItem('groupname')
-        const email = document.getElementById('invite-username').value.trim().toLowerCase();
-        document.getElementById('invite-username').value ='';
-        const obj = { email, groupname }
-        const response = await axios.post('http://localhost:8000/group/invite-friend', obj, { headers: { Authorization: token } })
-        window.location.reload();
-        console.log(response.Error);
-        if (response.status == 201) {
-            window.location.reload()
-            alert("User added Successfully")
-            
-        }
-      
-    }
-    catch (err) {
-        console.log(err);
-        alert("Something went wrong")
-    }
-
-
-}
-
-
-//Send message
+// ----------------------------------------------  Send message  -------------------------------------------------------
 
 async function sendMessage(e) {
     e.preventDefault();
@@ -56,21 +19,54 @@ async function sendMessage(e) {
         const response = await axios.post("http://localhost:8000/message", msgObj, {
             headers: { Authorization: token },
         });
-        displayMessages(response);
-        console.log(response.data.username);
+        displayMessages(response.data);
     } catch (err) {
         console.log(err.message);
     }
 }
 
-//Display on screen the message
+
+// ----------------------------------------------  Display message  -------------------------------------------------------
+
 async function displayMessages(obj) {
     const ul = document.getElementById('chat-messages');
     const li = document.createElement('li');
-    li.textContent = `${obj.data.username = 'you'} : ${obj.data.message}`;
+    li.textContent = `${obj.username } : ${obj.message}`;
     ul.appendChild(li);
 }
-//Display 
+
+
+// ----------------------------------------------  Store message into localstorage  -------------------------------------------------------
+
+window.addEventListener('DOMContentLoaded', () => {
+    const h2 = document.getElementById('group-name');
+    const groupname = localStorage.getItem('groupname');
+    h2.innerHTML = `GroupName : ${groupname}`
+        async function fetchChatData() {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get(`http://localhost:8000/show-all-chat/${groupname}`, { headers: { 'Authorization': token } });
+        const chat = response.data.chat;
+       
+        localStorage.setItem('chatArray', JSON.stringify(chat));
+        let chat2 = JSON.parse(localStorage.getItem('chatArray'))
+        document.getElementById('chat-messages').innerHTML = " ";
+        chat2.forEach(ele => {
+        displayMessages(ele)
+        })
+      } catch (error) {
+        console.log("Error fetching chat data:", error);
+      }
+    }
+    setInterval(fetchChatData, 1000);
+    fetchChatData();
+    displayAllUsers();
+
+})
+
+
+// --------------------------------------------------  Display all-Users  -------------------------------------------------------
+
 async function displayAllUsers() {
     try {
         const token = localStorage.getItem('token');
@@ -89,7 +85,11 @@ async function displayAllUsers() {
         console.log(err.message);
     }
 }
-//Admin user
+
+
+// --------------------------------------------------- Admin User & Simple Users  -------------------------------------------------------
+
+
 function showAdminUser(id, name) {
     const ul = document.getElementById("user-list");
     const newUser = `
@@ -113,6 +113,38 @@ function showUser(id, name) {
     ul.innerHTML += newUser
 }
 
+async function removeUserFromGroup(id){
+
+}
+
+
+
+// ------------------------------------------------- Invite to another User  -------------------------------------------------------
+
+async function addUser() {
+    try {
+        const token = localStorage.getItem('token')
+        const groupname = localStorage.getItem('groupname')
+        const email = document.getElementById('invite-username').value.trim().toLowerCase();
+        document.getElementById('invite-username').value ='';
+        const obj = { email, groupname }
+        const response = await axios.post('http://localhost:8000/group/invite-friend', obj, { headers: { Authorization: token } })
+        window.location.reload();
+        console.log(response.Error);
+        if (response.status == 201) {
+            window.location.reload()
+            alert("User added Successfully")
+        }
+    }
+    catch (err) {
+        console.log(err);
+        alert("Something went wrong")
+    }
+}
+
+
+// -------------------------------------------------  Make admin  -------------------------------------------------------
+
 
 async function makeAdmin() {
     try {
@@ -132,6 +164,3 @@ async function makeAdmin() {
         alert("Something went wrong please provide currect email")
     }
 }
-
-
-
