@@ -20,21 +20,6 @@ async function groupsYouPresent(event){
     window.location.href = '../groupchat/groupchat.html';
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function redirectSignup(){
     console.log("I am Biplab");
     window.location.href ='../signUp/signUp.html'
@@ -44,5 +29,5 @@ function redirectlogin(){
 }
 
 function redirectcreategroup(){
-    window.location.href = '../group/group.html'
+    window.location.href = '../creategroup/creategroup.html'
 }

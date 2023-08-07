@@ -1,5 +1,5 @@
 
-  window.addEventListener('DOMContentLoaded',()=> {
+window.addEventListener('DOMContentLoaded',()=> {
     const createGroupBtn = document.getElementById("create-group-btn");
     createGroupBtn.addEventListener('click',createGroup)
     async function createGroup(e) {

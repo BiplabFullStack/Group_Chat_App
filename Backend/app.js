@@ -10,8 +10,9 @@ const sequelize = require('./database/db')
 
 const signUpRoute = require('./router/signUp');
 const loginRouter = require('./router/login');
-const chatappRouter = require('./router/message');
-const groupRouter = require('./router/group')
+const groupchatRouter = require('./router/groupchat');
+const creategroup = require('./router/creategroup');
+const chat = require('./router/chat')
 
 
 
@@ -28,8 +29,9 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use(signUpRoute);
 app.use(loginRouter);
-app.use(chatappRouter);
-app.use(groupRouter)
+app.use(groupchatRouter);
+app.use(creategroup)
+app.use(chat)
 
 
 

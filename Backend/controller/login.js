@@ -36,15 +36,4 @@ const login = async (req, res) => {
 
 }
 
-const userdetails = async ( req, res ) => {
-    try{
-        const response = await User.findOne({where:{id:req.user.id}})
-       // console.log(response.firstName);
-        return res.status(200).json(response);
-    }
-    catch(err){
-        console.log(err);
-    }
-}
-
-module.exports = {login, userdetails};
+module.exports.login = login
