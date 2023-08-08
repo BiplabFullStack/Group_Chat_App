@@ -73,8 +73,8 @@ const addmember = async (req, res ) => {
     const {email, groupname} = req.body;
     const member = await User.findOne({where:{email}})
     if(!member){
-        console.log('Email-Id not valid');
-        return res.status(400).json({success:false, msg: "Email-Id not valid"})
+        console.log('Email-Id not found');
+        return res.status(400).json({success:false, msg: "Email-Id not found"})
     }
     const usergroup1 = await UserGroup.findOne({where:{userId:member.id, groupname:groupname}})
     if(usergroup1){
@@ -82,7 +82,8 @@ const addmember = async (req, res ) => {
     }
     const group = await Group.findOne({where:{groupname}})
     const usergroup = await UserGroup.create({groupname, name:member.firstName , groupId:group.id, userId:member.id})
-    res.status(201).json({success:true, msg:"member join in this group"});
+    // res.status(201).json({success:true, msg:"member join in this group"});
+    res.status(201).json(usergroup);
     console.log("member join in this group");
     }
     catch(err){
@@ -96,6 +97,7 @@ const addmember = async (req, res ) => {
 
 const makeAdmine =async (req, res ) => {
     try{
+        const loginUserId = req.user.id
     const {email , groupname} = req.body;
     const userdetails = await User.findOne({where:{email}})
     if(!userdetails){
@@ -107,15 +109,43 @@ const makeAdmine =async (req, res ) => {
         console.log("User already admin");
         return res.status(403).json({success: false, msg :"User already admin"})
     }
-    const updatedData = await UserGroup.update({isAdmine:true},{where:{userId:userdetails.id}})
-    res.status(200).json(updatedData);
+    const findUser = await UserGroup.findOne({where:{userId:loginUserId, isAdmine:true}})
+    
+    if(findUser){
+        const updatedData = await UserGroup.update({isAdmine:true},{where:{userId:userdetails.id}})
+    return res.status(200).json(updatedData);
     console.log("Successfully make admin");
+    }else{
+        console.log("you are not group admin");
+        return res.status(400).json({success: false , msg: "you are not group admin"})
+    }
     }
     catch(err){
         console.log("error gyse");
-        res.status(400).json({err})
+        return res.status(400).json({err})
     }
 
+}
+
+const deleteUser = async ( req, res ) => {
+    try{
+        const id = req.params.id;
+        const loginUserId = req.user.id;
+        const findUser = await UserGroup.findOne({where:{userId:loginUserId, isAdmine:true}})
+        if(findUser){
+            const deletedItem = await UserGroup.destroy({where:{id}})
+            console.log("deleted successfully");
+            return res.status(200).json({success: true , msg :"deleted successfully"})
+            
+        }else{
+            console.log('You are not admin');
+            return res.status(400).json({success:false, msg:'You are not admin'})
+        }
+        
+    }
+    catch(err){
+        console.log(err.message);
+    }
 }
 
 
@@ -123,5 +153,5 @@ const makeAdmine =async (req, res ) => {
 
 // -----------------------------------------------  Exports  --------------------------------------------------
 
-module.exports = { postmessage , showAllChat , showAllUsers , addmember , makeAdmine }
+module.exports = { postmessage , showAllChat , showAllUsers , addmember , makeAdmine , deleteUser }
 

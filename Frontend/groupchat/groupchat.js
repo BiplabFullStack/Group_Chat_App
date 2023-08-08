@@ -31,7 +31,7 @@ async function sendMessage(e) {
 async function displayMessages(obj) {
     const ul = document.getElementById('chat-messages');
     const li = document.createElement('li');
-    li.textContent = `${obj.username } : ${obj.message}`;
+    li.textContent = `${obj.username} : ${obj.message}`;
     ul.appendChild(li);
 }
 
@@ -42,21 +42,21 @@ window.addEventListener('DOMContentLoaded', () => {
     const h2 = document.getElementById('group-name');
     const groupname = localStorage.getItem('groupname');
     h2.innerHTML = `GroupName : ${groupname}`
-        async function fetchChatData() {
-      try {
-        const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:8000/show-all-chat/${groupname}`, { headers: { 'Authorization': token } });
-        const chat = response.data.chat;
-       
-        localStorage.setItem('chatArray', JSON.stringify(chat));
-        let chat2 = JSON.parse(localStorage.getItem('chatArray'))
-        document.getElementById('chat-messages').innerHTML = " ";
-        chat2.forEach(ele => {
-        displayMessages(ele)
-        })
-      } catch (error) {
-        console.log("Error fetching chat data:", error);
-      }
+    async function fetchChatData() {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.get(`http://localhost:8000/show-all-chat/${groupname}`, { headers: { 'Authorization': token } });
+            const chat = response.data.chat;
+
+            localStorage.setItem('chatArray', JSON.stringify(chat));
+            let chat2 = JSON.parse(localStorage.getItem('chatArray'))
+            document.getElementById('chat-messages').innerHTML = " ";
+            chat2.forEach(ele => {
+                displayMessages(ele)
+            })
+        } catch (error) {
+            console.log("Error fetching chat data:", error);
+        }
     }
     setInterval(fetchChatData, 1000);
     fetchChatData();
@@ -113,8 +113,22 @@ function showUser(id, name) {
     ul.innerHTML += newUser
 }
 
-async function removeUserFromGroup(id){
-
+async function removeUserFromGroup(id) {
+    const token = localStorage.getItem('token');
+    const groupname = localStorage.getItem('groupname')
+    try {
+        if (confirm("Are you sure ?")) {
+            const deleteItem = await axios.delete(`http://localhost:8000/delete-user/${id}`, { headers: { Authorization: token } });
+            console.log('deleteItem', deleteItem);
+            if (deleteItem.status == 200) {
+                window.location.reload();
+            }
+        }
+    }
+    catch (err) {
+        console.log(err.message);
+        alert(err.message);
+    }
 }
 
 
@@ -126,9 +140,10 @@ async function addUser() {
         const token = localStorage.getItem('token')
         const groupname = localStorage.getItem('groupname')
         const email = document.getElementById('invite-username').value.trim().toLowerCase();
-        document.getElementById('invite-username').value ='';
+        document.getElementById('invite-username').value = '';
         const obj = { email, groupname }
         const response = await axios.post('http://localhost:8000/group/invite-friend', obj, { headers: { Authorization: token } })
+        console.log('response---->', response.data.id);
         window.location.reload();
         console.log(response.Error);
         if (response.status == 201) {
@@ -149,12 +164,12 @@ async function addUser() {
 async function makeAdmin() {
     try {
         const email = document.getElementById("admine").value.trim().toLowerCase();
-        document.getElementById("admine").value ='';
+        document.getElementById("admine").value = '';
         const token = localStorage.getItem('token');
         const groupname = localStorage.getItem('groupname')
-        const response = await axios.post('http://localhost:8000/make-admin', { email , groupname}, { headers: { Authorization: token } })
+        const response = await axios.post('http://localhost:8000/make-admin', { email, groupname }, { headers: { Authorization: token } })
         console.log(response);
-        if(response.status == 200){
+        if (response.status == 200) {
             window.location.reload(1)
             alert("Successfully make admin")
         }
