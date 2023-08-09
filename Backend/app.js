@@ -3,6 +3,10 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
 const chalk = require('chalk');
+const path = require('path')
+const fs = require('fs')
+const compression = require('compression')
+const morgan = require('morgan')
 const sequelize = require('./database/db')
 
 
@@ -25,6 +29,17 @@ const UserGroup = require('./model/usergroup')
 
 
 const app = new express();
+app.use(compression());
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+app.use(morgan('combined', { stream: accessLogStream }))
+
+
+
+
+
+
+
+
 app.use(bodyParser.json());
 app.use(cors());
 app.use(signUpRoute);
@@ -53,7 +68,9 @@ sequelize.sync().then(result=>{
     console.log(chalk.red(err.message));
 });
 
-
+app.use((req, res)=>{
+     res.sendFile (path.join(__dirname, 'public',`${req.url}`));
+ })
 
 app.use('/*',(req, res)=>{
     res.status(404)

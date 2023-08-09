@@ -45,6 +45,7 @@ const showAllChat = async (req, res) => {
     }
     catch(err){
         console.log(err.message);
+        res.status(500).json({ success: false, err: "Something went wrong" })
     }
 }
 
@@ -56,11 +57,15 @@ const showAllUsers = async ( req, res ) => {
     try{
         const groupname = req.params.groupname;
         const response = await UserGroup.findAll({where:{groupname}})
-       // console.log(response.firstName);
-        return res.status(200).json(response);
+        if(response){
+            return res.status(200).json(response);
+        }else{
+            throw new Error("Username not valid")
+        }
     }
     catch(err){
         console.log(err);
+        res.status(500).json({ success: false, err: "Something went wrong" })
     }
 }
 
@@ -78,16 +83,17 @@ const addmember = async (req, res ) => {
     }
     const usergroup1 = await UserGroup.findOne({where:{userId:member.id, groupname:groupname}})
     if(usergroup1){
-        return res.status(400).json({Success:false, msg:"User allready have in this group"})
+        console.log("User allready have on this group");
+        return res.status(400).json({Success:false, msg:"User allready have on this group"})
     }
     const group = await Group.findOne({where:{groupname}})
     const usergroup = await UserGroup.create({groupname, name:member.firstName , groupId:group.id, userId:member.id})
-    // res.status(201).json({success:true, msg:"member join in this group"});
     res.status(201).json(usergroup);
-    console.log("member join in this group");
+    console.log("member joined in this group");
     }
     catch(err){
         console.log(err.message);
+        return res.status(400).json(err)
     }
 }
 
@@ -113,8 +119,9 @@ const makeAdmine =async (req, res ) => {
     
     if(findUser){
         const updatedData = await UserGroup.update({isAdmine:true},{where:{userId:userdetails.id}})
+        console.log("Successfully make admin");
     return res.status(200).json(updatedData);
-    console.log("Successfully make admin");
+    
     }else{
         console.log("you are not group admin");
         return res.status(400).json({success: false , msg: "you are not group admin"})
