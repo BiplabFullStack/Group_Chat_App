@@ -1,4 +1,5 @@
 const express = require('express');
+const app = new express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 require('dotenv').config();
@@ -9,7 +10,10 @@ const compression = require('compression')
 const morgan = require('morgan')
 const sequelize = require('./database/db')
 
+//Socket
 
+const http = require('http').Server(app)
+const io = require('socket.io')(http)
 
 
 const signUpRoute = require('./router/signUp');
@@ -28,14 +32,10 @@ const Group = require('./model/group')
 const UserGroup = require('./model/usergroup')
 
 
-const app = new express();
+
 app.use(compression());
 const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 app.use(morgan('combined', { stream: accessLogStream }))
-
-
-
-
 
 
 
@@ -61,7 +61,7 @@ Chat.belongsTo(Group);
 
 sequelize.sync().then(result=>{
     console.log(chalk.green.inverse('Database Connected ....'))
-    app.listen(process.env.PORT,()=>{
+    http.listen(process.env.PORT,()=>{
         console.log(chalk.magenta.inverse( `Server running on port ${process.env.PORT} `));
     });
 }).catch(err=>{
@@ -70,6 +70,31 @@ sequelize.sync().then(result=>{
 
 app.use((req, res)=>{
      res.sendFile (path.join(__dirname, 'public',`${req.url}`));
+ })
+
+
+
+
+ //socket
+
+ let userNo = 0;
+
+ io.on('connection',function(socket)  {
+    userNo ++;
+    console.log(chalk.red.inverse("User connected "), userNo);
+    socket.on('send-message',(message)=>{
+        console.log('message :',message);
+        socket.emit('received',message)
+    })
+    socket.on('disconnect', function(){
+        userNo --;
+        if(userNo <=0){
+            console.log(chalk.red.inverse("No have any user connected"));
+        }else{
+            console.log(chalk.red.inverse("User connected "), userNo);
+        }
+        
+    })
  })
 
 app.use('/*',(req, res)=>{

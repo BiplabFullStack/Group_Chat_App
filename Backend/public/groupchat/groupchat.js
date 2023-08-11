@@ -1,7 +1,23 @@
 
+
 document.getElementById('invite-user-btn').addEventListener('click', addUser);
 document.getElementById("send-btn").addEventListener("click", sendMessage);
 document.getElementById("create-admin-btn").addEventListener('click', makeAdmin)
+
+
+//-------------------------------------------- Socket ---------------------------------------------------------
+ const socket = io();
+socket.on('received',(message) => {
+    console.log('message -->',message);
+    displayMessages(message);
+})
+
+
+
+
+
+
+
 
 // ----------------------------------------------  Send message  -------------------------------------------------------
 
@@ -18,8 +34,10 @@ async function sendMessage(e) {
 
         const response = await axios.post(`http://localhost:8000/message`, msgObj, {
             headers: { Authorization: token },
+            
         });
-        displayMessages(response.data);
+        socket.emit('send-message',response.data);
+       // displayMessages(response.data);
     } catch (err) {
         console.log(err.message);
     }
