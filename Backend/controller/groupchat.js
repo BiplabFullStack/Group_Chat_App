@@ -10,6 +10,9 @@ const Chat = require('../model/message')
 const postmessage = async (req, res) => {
     try {
         const { message , groupname } = req.body;
+        if(!message){
+            return res.status(400).json({Success: false, msg:"Please Type message"})
+        }
         console.log(message , groupname);
         const group = await Group.findOne({where:{groupname}})
         //console.log("Group id is ", group.id);
@@ -40,7 +43,9 @@ const showAllChat = async (req, res) => {
     const group = await Group.findOne({where:{groupname}})
     const chat = await Chat.findAll({where:{groupId:group.id}})
     const usergroup = await UserGroup.findAll({where:{groupId:group.id , userId:req.user.id}})
-
+    if(!usergroup){
+        return res.status(400).json({Success: false, msg:"Something is wrong"})
+    }
     res.status(200).json({chat, usergroup})
     }
     catch(err){

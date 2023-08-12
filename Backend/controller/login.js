@@ -24,14 +24,14 @@ const login = async (req, res) => {
             else{
                 console.log("weong Password");
                 return res
-                    .status(401)
-                    .json({success:false, err:"Wrong Password", status:401})
+                    .status(400)
+                    .json({success:false, err:"Wrong Password"})
             }
         })
     }
     catch (err) {
         console.log("Invalid username and password");
-        res.status(404).json({success:false, err:"Invalid username and password"})
+        res.status(500).json({success:false, err:"Invalid username and password"})
     }
 
 }

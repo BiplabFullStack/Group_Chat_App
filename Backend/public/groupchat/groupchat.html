@@ -3,10 +3,14 @@
 <html>
 <head>
   <title>Chat App</title>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.5.2/socket.io.js" integrity="sha512-VJ6+sp2E5rFQk05caiXXzQd1wBABpjEj1r5kMiLmGAAgwPItw1YpqsCCBtq8Yr1x6C49/mTpRdXtq8O2RcZhlQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   
   <link rel="stylesheet" href="groupchat.css">
+
+
+ 
 </head>
 
 <body>
@@ -23,10 +27,8 @@
     <div class="chat-window">
        
       <h2>Chat Window</h2>
+      <ul id="chat-messages" class="list-group"></ul>
 
-      <ul id="chat-messages" class="list-group">
-   
-      </ul>
       <div style="display: inline-block;">
         
           <input type="file" name="file" id="file">
@@ -41,6 +43,7 @@
         
         <button id="send-btn" class="btn btn-primary">Send</button>
       </div>
+      <div id="text-message"></div>
     </div>
   </div>
 

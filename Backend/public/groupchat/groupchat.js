@@ -25,7 +25,14 @@ socket.on('received', (message) => {
 async function sendMessage(e) {
     e.preventDefault();
     try {
-        const message = document.getElementById("message-input").value.trim();;
+        const message = document.getElementById("message-input").value.trim();
+        const errmsg = document.getElementById("text-message")
+        if(!message){
+            errmsg.textContent="Please type message";
+            setTimeout(()=> {
+                errmsg.textContent=''
+            },3000)
+        }
         console.log(message);
         document.getElementById("message-input").value = "";
 
@@ -48,9 +55,12 @@ async function sendMessage(e) {
 // ----------------------------------------------  Display message  -------------------------------------------------------
 
 async function displayMessages(obj) {
+
+
     const ul = document.getElementById('chat-messages');
     const li = document.createElement('li');
     li.textContent = `${obj.username} : ${obj.message}`;
+     li.style.color ='#eee2dd'
     ul.appendChild(li);
 }
 
@@ -229,8 +239,8 @@ async function sendFile() {
         const formData = new FormData();
         formData.append("file", uploadfile);
         const response = await axios.post(`http://localhost:8000/file/sendfile/${groupname}`,formData, { headers: { 'Authorization': token, "Content-Type": "multipart/form-data" } })
-        console.log(response);
-
+        console.log('response ---->', response);
+        socket.emit('send-message', response.data);
         uploadfile.value = null;
         document.getElementById('file').value = null;
     }

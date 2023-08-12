@@ -5,10 +5,14 @@ const UserGroup = require('../model/usergroup')
 const showAllGroups = async (req, res) => {
     try{
         const groups = await UserGroup.findAll({where:{userId:req.user.id}})
+        if(!groups){
+            return res.status(200).json({Success: false, err:"Something went wrong"})
+        }
         res.status(200).json({groups})
     }
     catch(err){
         console.log(err.message);
+        res.status(500).json({err})
     }
 }
 

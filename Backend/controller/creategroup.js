@@ -10,8 +10,9 @@ const creategroup = async (req, res ) => {
 
         const validgroup = await UserGroup.findOne({where:{groupname}})
         if(validgroup){
-            res.status(200).json({Success: false, msg:"groupname already created"})
             console.log("groupname already created");
+            return res.status(400).json({Success: false, msg:"groupname already created"})
+            
         }else{
 
         const creategroup = await Group.create({groupname});

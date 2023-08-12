@@ -27,6 +27,17 @@ body {
 .chat-window {
     flex-basis: 48%;
     margin-bottom: 20px;
+    font-size: 14px;
+    background-color: #f7dcdc;
+    border: 1px solid #eee2dd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 20px;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-in-out forwards;
+    word-wrap: break-word;
+    overflow-y: auto;
+    cursor: pointer;
     
 }
 
@@ -46,9 +57,10 @@ ul {
     border-radius: 5px;
     padding: 10px;
     background-color: #616a71;
-
      opacity: 0;
     animation: fadeIn 1.5s ease-in-out forwards; 
+
+    
    
     
 }

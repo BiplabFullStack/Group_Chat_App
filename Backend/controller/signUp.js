@@ -35,7 +35,7 @@ const signUpPostData = async (req, res) => {
     }
     catch (err) {
         console.log(err.message);
-        res.json({ success: false, msg: "Something went wrong" })
+        res.status(500).json({ success: false, msg: "Something went wrong" })
     }
 }
 
