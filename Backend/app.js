@@ -10,6 +10,7 @@ const compression = require('compression')
 const morgan = require('morgan')
 const sequelize = require('./database/db')
 
+
 //Socket
 
 const http = require('http').Server(app)
@@ -21,6 +22,7 @@ const loginRouter = require('./router/login');
 const groupchatRouter = require('./router/groupchat');
 const creategroup = require('./router/creategroup');
 const chat = require('./router/chat')
+const multimediachat = require('./router/multimediachat')
 
 
 
@@ -47,6 +49,7 @@ app.use(loginRouter);
 app.use(groupchatRouter);
 app.use(creategroup)
 app.use(chat)
+app.use(multimediachat)
 
 
 

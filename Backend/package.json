@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/BiplabFullStack/Group_Chat_App#readme",
   "dependencies": {
+    "aws-sdk": "^2.1435.0",
+    "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "body-parser": "^1.20.2",
     "chalk": "^4.1.2",
@@ -26,6 +28,7 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.1",
     "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^3.6.0",
     "sequelize": "^6.32.1",
     "socket.io": "^4.5.4"

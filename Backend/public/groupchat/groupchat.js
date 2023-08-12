@@ -3,12 +3,13 @@
 document.getElementById('invite-user-btn').addEventListener('click', addUser);
 document.getElementById("send-btn").addEventListener("click", sendMessage);
 document.getElementById("create-admin-btn").addEventListener('click', makeAdmin)
+document.getElementById("uploadbtn").addEventListener('click', sendFile)
 
 
 //-------------------------------------------- Socket ---------------------------------------------------------
- const socket = io();
-socket.on('received',(message) => {
-    console.log('message -->',message);
+const socket = io();
+socket.on('received', (message) => {
+    console.log('message -->', message);
     displayMessages(message);
 })
 
@@ -34,10 +35,10 @@ async function sendMessage(e) {
 
         const response = await axios.post(`http://localhost:8000/message`, msgObj, {
             headers: { Authorization: token },
-            
+
         });
-        socket.emit('send-message',response.data);
-       // displayMessages(response.data);
+        socket.emit('send-message', response.data);
+        // displayMessages(response.data);
     } catch (err) {
         console.log(err.message);
     }
@@ -83,8 +84,8 @@ window.addEventListener('DOMContentLoaded', () => {
     const stopCallingAfterDuration = 0.5 * 60 * 1000; // 0.5 minutes in milliseconds
 
     setTimeout(() => {
-      clearInterval(interval);
-      console.log('Stopped calling API.');
+        clearInterval(interval);
+        console.log('Stopped calling API.');
     }, stopCallingAfterDuration);
 
 
@@ -208,4 +209,32 @@ async function makeAdmin() {
         console.log(err);
         alert("Something went wrong please provide currect email")
     }
+}
+
+
+
+async function sendFile() {
+    const file = document.getElementById('file');
+   
+    const groupname = localStorage.getItem('groupname')
+    const token = localStorage.getItem('token')
+   const uploadfile = file.files[0]
+   // console.log(uploadfile);
+    if (!uploadfile) {
+        document.getElementById('message').textContent ='Please select a file'
+        setTimeout(()=> {
+            document.getElementById('message').textContent =''
+        },3000)
+    }else{
+        const formData = new FormData();
+        formData.append("file", uploadfile);
+        const response = await axios.post(`http://localhost:8000/file/sendfile/${groupname}`,formData, { headers: { 'Authorization': token, "Content-Type": "multipart/form-data" } })
+        console.log(response);
+
+        uploadfile.value = null;
+        document.getElementById('file').value = null;
+    }
+    
+  
+
 }
