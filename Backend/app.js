@@ -86,7 +86,7 @@ app.use((req, res)=>{
     userNo ++;
     console.log(chalk.red.inverse("User connected "), userNo);
     socket.on('send-message',(message)=>{
-        console.log('message :',message);
+       // console.log('message :',message);
         socket.emit('received',message)
     })
     socket.on('disconnect', function(){

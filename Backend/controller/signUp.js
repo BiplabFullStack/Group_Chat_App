@@ -19,7 +19,7 @@ const signUpPostData = async (req, res) => {
              res
                 .status(409)
                 .json({ success: false, err: "User already exists, Please Login" })
-                console.log(res.statusCode);   
+               // console.log(res.statusCode);   
         }
          else {
             bcrypt.hash(password, 10, async (err, hash) => {

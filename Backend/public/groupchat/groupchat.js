@@ -98,11 +98,6 @@ window.addEventListener('DOMContentLoaded', () => {
         console.log('Stopped calling API.');
     }, stopCallingAfterDuration);
 
-
-
-
-
-
 })
 
 
@@ -185,7 +180,7 @@ async function addUser() {
         const obj = { email, groupname }
         const response = await axios.post(`http://localhost:8000/group/invite-friend`, obj, { headers: { Authorization: token } })
         console.log('response---->', response.data.id);
-        window.location.reload();
+        //window.location.reload();
         console.log(response.Error);
         if (response.status == 201) {
             window.location.reload()

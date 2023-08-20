@@ -16,9 +16,6 @@ window.addEventListener('DOMContentLoaded',()=> {
           alert("Group created successfully")
           window.location.href = '../groupchat/groupchat.html'
         }
-        if(groupName.status == 200){
-          alert("This Group-name already created ")
-        }
         
         if(!groupName){
           alert("Please enter a valid group name");
